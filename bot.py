@@ -88,15 +88,15 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # 1. If in REDIRECT mode
     if GLOBAL_BOT_MODE == "REDIRECT":
         welcome_text = (
-            "¡Automatiza tus operaciones y obtén ganancias fácilmente con nuestro robot de trading de Forex!\n\n"
-            "Funciona en tu PC y en tu teléfono móvil. 🔥"
+            "Automatize suas operações e obtenha lucros facilmente com o nosso robô de trading de Forex!\n\n"
+            "Funciona no seu PC e no seu celular. 🔥"
         )
         await update.message.reply_text(welcome_text)
         
         await asyncio.sleep(2)
         
         keyboard = [
-            [InlineKeyboardButton("Haz clic para unirte ahora 🟢", url="https://t.me/+pCxuKjvmoWE3MDk5")]
+            [InlineKeyboardButton("Clique para participar agora 🟢", url="https://t.me/+pCxuKjvmoWE3MDk5")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await update.message.reply_text("https://t.me/+pCxuKjvmoWE3MDk5", reply_markup=reply_markup)
