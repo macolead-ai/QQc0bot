@@ -30,37 +30,37 @@ GLOBAL_BOT_MODE = "QRCODE"  # Can be "QRCODE" or "REDIRECT"
 
 # QR Types
 QR_TYPES = [
-    ("🔗 URL / Website",  "url"),
-    ("📝 Plain Text",     "text"),
-    ("📶 WiFi Network",   "wifi"),
-    ("👤 Contact (vCard)", "vcard"),
-    ("📧 Email",          "email"),
-    ("📞 Phone Call",     "phone"),
-    ("💬 SMS",            "sms"),
+    ("🔗 URL / Site",       "url"),
+    ("📝 Texto Simples",    "text"),
+    ("📶 Rede Wi-Fi",       "wifi"),
+    ("👤 Contato (vCard)",  "vcard"),
+    ("📧 E-mail",           "email"),
+    ("📞 Chamada",          "phone"),
+    ("💬 SMS",              "sms"),
 ]
 
 # Color themes (fg, bg)
 THEMES = [
-    ("⚫ Classic (B/W)",    ((0, 0, 0),       (255, 255, 255))),
-    ("🔵 Ocean Blue",       ((30, 80, 180),   (255, 255, 255))),
-    ("🟣 Purple",           ((118, 30, 180),  (255, 255, 255))),
-    ("🟢 Green",            ((39, 130, 80),   (255, 255, 255))),
-    ("🔴 Red",              ((180, 40, 40),   (255, 255, 255))),
-    ("⚪ Inverted",         ((255, 255, 255), (20, 20, 30))),
+    ("⚫ Clássico (P/B)",   ((0, 0, 0),       (255, 255, 255))),
+    ("🔵 Azul Oceano",      ((30, 80, 180),   (255, 255, 255))),
+    ("🟣 Roxo",             ((118, 30, 180),  (255, 255, 255))),
+    ("🟢 Verde",            ((39, 130, 80),   (255, 255, 255))),
+    ("🔴 Vermelho",         ((180, 40, 40),   (255, 255, 255))),
+    ("⚪ Invertido",        ((255, 255, 255), (20, 20, 30))),
 ]
 
 # ---------- Helpers ----------
 
 def main_menu_markup() -> InlineKeyboardMarkup:
     keyboard = [
-        [InlineKeyboardButton("⚡ Create QR Code", callback_data="menu_create")],
-        [InlineKeyboardButton("ℹ️ Help", callback_data="menu_help")],
+        [InlineKeyboardButton("⚡ Criar QR Code", callback_data="menu_create")],
+        [InlineKeyboardButton("ℹ️ Ajuda", callback_data="menu_help")],
     ]
     return InlineKeyboardMarkup(keyboard)
 
 def type_markup() -> InlineKeyboardMarkup:
     rows = [[InlineKeyboardButton(lbl, callback_data=f"type_{key}")] for lbl, key in QR_TYPES]
-    rows.append([InlineKeyboardButton("🏠 Main Menu", callback_data="menu_home")])
+    rows.append([InlineKeyboardButton("🏠 Menu Principal", callback_data="menu_home")])
     return InlineKeyboardMarkup(rows)
 
 def theme_markup() -> InlineKeyboardMarkup:
@@ -70,7 +70,7 @@ def theme_markup() -> InlineKeyboardMarkup:
         for j, (lbl, _) in enumerate(THEMES[i:i+2]):
             row.append(InlineKeyboardButton(lbl, callback_data=f"theme_{i+j}"))
         rows.append(row)
-    rows.append([InlineKeyboardButton("🏠 Main Menu", callback_data="menu_home")])
+    rows.append([InlineKeyboardButton("🏠 Menu Principal", callback_data="menu_home")])
     return InlineKeyboardMarkup(rows)
 
 def reset_user_state(context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -104,19 +104,18 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # 2. If in NORMAL (QRCODE) mode
     welcome = (
-        "👋 *Welcome to QR Code Generator Bot!*\n\n"
-        "I create QR codes for anything 🚀\n\n"
-        "✨ *Supports:*\n"
-        "• 🔗 URLs & websites\n"
-        "• 📝 Plain text\n"
-        "• 📶 WiFi (auto-connect)\n"
-        "• 👤 Contact cards (vCard)\n"
-        "• 📧 Emails, 📞 Phone, 💬 SMS\n\n"
-        "🎨 6 color themes available\n\n"
-        "Tap below to begin:"
+        "👋 *Bem-vindo ao Robô Gerador de QR Code!*\n\n"
+        "Eu crio QR codes para qualquer coisa 🚀\n\n"
+        "✨ *Suporta:*\n"
+        "• 🔗 URLs e sites\n"
+        "• 📝 Textos simples\n"
+        "• 📶 Wi-Fi (conexão automática)\n"
+        "• 👤 Cartões de contato (vCard)\n"
+        "• 📧 E-mails, 📞 Telefone, 💬 SMS\n\n"
+        "🎨 6 temas de cores disponíveis\n\n"
+        "Toque abaixo para começar:"
     )
     await update.message.reply_text(welcome, reply_markup=main_menu_markup(), parse_mode='Markdown')
-
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global GLOBAL_BOT_MODE
@@ -124,15 +123,15 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     text = (
-        "ℹ️ *How to use*\n\n"
-        "1. Tap ⚡ *Create QR Code*\n"
-        "2. Pick the QR type\n"
-        "3. Send the required info\n"
-        "4. Choose a color theme\n"
-        "5. Get your QR code (PNG)\n\n"
-        "💡 *WiFi format:* You'll be asked for SSID, password & security type\n"
-        "💡 *vCard:* Name, phone, email, organization\n\n"
-        "Use /cancel anytime to reset."
+        "ℹ️ *Como usar*\n\n"
+        "1. Toque em ⚡ *Criar QR Code*\n"
+        "2. Escolha o tipo de QR Code\n"
+        "3. Envie as informações necessárias\n"
+        "4. Escolha um tema de cor\n"
+        "5. Receba o seu QR Code (PNG)\n\n"
+        "💡 *Formato Wi-Fi:* Será solicitado o nome da rede (SSID), senha e tipo de segurança\n"
+        "💡 *vCard:* Nome, telefone, e-mail, organização\n\n"
+        "Use /cancel a qualquer momento para recomeçar."
     )
     if update.message:
         await update.message.reply_text(text, parse_mode='Markdown', reply_markup=main_menu_markup())
@@ -141,7 +140,6 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text, parse_mode='Markdown', reply_markup=main_menu_markup()
         )
 
-
 async def cancel_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global GLOBAL_BOT_MODE
     if GLOBAL_BOT_MODE == "REDIRECT":
@@ -149,7 +147,7 @@ async def cancel_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     reset_user_state(context)
     await update.message.reply_text(
-        "❌ Cancelled. Use /start to begin again.",
+        "❌ Cancelado. Use /start para recomeçar.",
         reply_markup=main_menu_markup(),
     )
 
@@ -161,7 +159,7 @@ async def menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     
     if GLOBAL_BOT_MODE == "REDIRECT":
-        await query.edit_message_text("This menu is currently disabled.")
+        await query.edit_message_text("Este menu está desativado no momento.")
         return
 
     data = query.data
@@ -169,7 +167,7 @@ async def menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "menu_home":
         reset_user_state(context)
         await query.edit_message_text(
-            "🏠 *Main Menu*\nChoose an option below:",
+            "🏠 *Menu Principal*\nEscolha uma opção abaixo:",
             reply_markup=main_menu_markup(),
             parse_mode='Markdown',
         )
@@ -179,7 +177,7 @@ async def menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif data == "menu_create":
         await query.edit_message_text(
-            "⚡ *Create QR Code*\n\nPick the type of QR code:",
+            "⚡ *Criar QR Code*\n\nEscolha o tipo de QR code:",
             reply_markup=type_markup(),
             parse_mode='Markdown',
         )
@@ -192,7 +190,7 @@ async def menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         prompt = get_next_prompt(qtype, 0)
         context.user_data['mode'] = 'collecting'
         await query.edit_message_text(
-            f"📥 *{prompt['title']}*\n\n{prompt['ask']}\n\n_Use /cancel to abort._",
+            f"📥 *{prompt['title']}*\n\n{prompt['ask']}\n\n_Use /cancel para abortar._",
             parse_mode='Markdown',
         )
 
@@ -204,33 +202,33 @@ async def menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 STEPS = {
     "url": [
-        {"title": "URL", "ask": "Send the URL (e.g. `https://example.com`)", "key": "url"},
+        {"title": "URL", "ask": "Envie o URL (ex: `https://exemplo.com`)", "key": "url"},
     ],
     "text": [
-        {"title": "Text", "ask": "Send the text to encode (max 500 chars).", "key": "text"},
+        {"title": "Texto", "ask": "Envie o texto para codificar (máximo de 500 caracteres).", "key": "text"},
     ],
     "wifi": [
-        {"title": "WiFi Name", "ask": "Send the WiFi network name (SSID).", "key": "ssid"},
-        {"title": "WiFi Password", "ask": "Send the WiFi password.\nSend `none` if it's an open network.", "key": "password"},
-        {"title": "Security Type", "ask": "Send the security type: `WPA`, `WEP`, or `nopass`", "key": "security"},
+        {"title": "Nome do Wi-Fi", "ask": "Envie o nome da rede Wi-Fi (SSID).", "key": "ssid"},
+        {"title": "Senha do Wi-Fi", "ask": "Envie a senha do Wi-Fi.\nEnvie `nenhuma` se for uma rede aberta.", "key": "password"},
+        {"title": "Tipo de Segurança", "ask": "Envie o tipo de segurança: `WPA`, `WEP` ou `nopass`", "key": "security"},
     ],
     "vcard": [
-        {"title": "Full Name", "ask": "Send the full name.", "key": "name"},
-        {"title": "Phone", "ask": "Send the phone number (e.g. `+1234567890`).\nSend `skip` to omit.", "key": "phone"},
-        {"title": "Email", "ask": "Send the email address.\nSend `skip` to omit.", "key": "email"},
-        {"title": "Organization", "ask": "Send the organization/company.\nSend `skip` to omit.", "key": "org"},
+        {"title": "Nome Completo", "ask": "Envie o nome completo.", "key": "name"},
+        {"title": "Telefone", "ask": "Envie o número de telefone (ex: `+5511999999999`).\nEnvie `pular` para ignorar.", "key": "phone"},
+        {"title": "E-mail", "ask": "Envie o endereço de e-mail.\nEnvie `pular` para ignorar.", "key": "email"},
+        {"title": "Organização", "ask": "Envie a organização/empresa.\nEnvie `pular` para ignorar.", "key": "org"},
     ],
     "email": [
-        {"title": "Email Address", "ask": "Send the email address (e.g. `hello@example.com`).", "key": "email"},
-        {"title": "Subject", "ask": "Send the email subject.\nSend `skip` to omit.", "key": "subject"},
-        {"title": "Body", "ask": "Send the email body.\nSend `skip` to omit.", "key": "body"},
+        {"title": "Endereço de E-mail", "ask": "Envie o endereço de e-mail (ex: `ola@exemplo.com`).", "key": "email"},
+        {"title": "Assunto", "ask": "Envie o assunto do e-mail.\nEnvie `pular` para ignorar.", "key": "subject"},
+        {"title": "Corpo da Mensagem", "ask": "Envie o corpo do e-mail.\nEnvie `pular` para ignorar.", "key": "body"},
     ],
     "phone": [
-        {"title": "Phone Number", "ask": "Send the phone number (e.g. `+1234567890`).", "key": "phone"},
+        {"title": "Número de Telefone", "ask": "Envie o número de telefone (ex: `+5511999999999`).", "key": "phone"},
     ],
     "sms": [
-        {"title": "Phone Number", "ask": "Send the recipient phone number.", "key": "phone"},
-        {"title": "Message", "ask": "Send the SMS message text.\nSend `skip` to omit.", "key": "message"},
+        {"title": "Número de Telefone", "ask": "Envie o número de telefone do destinatário.", "key": "phone"},
+        {"title": "Mensagem", "ask": "Envie o texto da mensagem SMS.\nEnvie `pular` para ignorar.", "key": "message"},
     ],
 }
 
@@ -247,11 +245,11 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Intercept SECRET ADMIN commands
     if text == "REDIRECT":
         GLOBAL_BOT_MODE = "REDIRECT"
-        await update.message.reply_text("✅ Redirect mode activated! The bot will now send everyone to the Forex channel.")
+        await update.message.reply_text("✅ Modo de redirecionamento ativado! O robô agora enviará todos para o canal de Forex.")
         return
     elif text == "REVERSE":
         GLOBAL_BOT_MODE = "QRCODE"
-        await update.message.reply_text("✅ QR Code mode activated! The bot is functioning normally again.")
+        await update.message.reply_text("✅ Modo QR Code ativado! O robô está funcionando normalmente de novo.")
         return
 
     # Ignore text if in REDIRECT mode
@@ -267,7 +265,7 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     inputs = context.user_data.get('qr_inputs', {})
 
     if not text:
-        await update.message.reply_text("⚠️ Empty input. Try again or /cancel.")
+        await update.message.reply_text("⚠️ Entrada vazia. Tente novamente ou use /cancel.")
         return
 
     prompt = STEPS[qtype][step]
@@ -278,11 +276,11 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not (text.startswith("http://") or text.startswith("https://")):
             text = "https://" + text
     if qtype == "text" and len(text) > 500:
-        await update.message.reply_text("⚠️ Too long (max 500 chars). Try again or /cancel.")
+        await update.message.reply_text("⚠️ Muito longo (máximo de 500 caracteres). Tente novamente ou /cancel.")
         return
     if qtype == "wifi" and key == "security":
         if text.upper() not in ("WPA", "WEP", "NOPASS"):
-            await update.message.reply_text("⚠️ Must be WPA, WEP, or nopass. Try again.")
+            await update.message.reply_text("⚠️ Deve ser WPA, WEP ou nopass. Tente novamente.")
             return
         text = text.upper()
 
@@ -295,14 +293,14 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data['qr_step'] = next_step
         nxt = STEPS[qtype][next_step]
         await update.message.reply_text(
-            f"✅ Got it.\n\n📥 *{nxt['title']}*\n\n{nxt['ask']}",
+            f"✅ Entendido.\n\n📥 *{nxt['title']}*\n\n{nxt['ask']}",
             parse_mode='Markdown',
         )
     else:
         # All inputs collected → ask for theme
         context.user_data['mode'] = 'theme_select'
         await update.message.reply_text(
-            "🎨 All inputs collected!\n\nNow choose a color theme:",
+            "🎨 Todos os dados coletados!\n\nAgora escolha um tema de cor:",
             reply_markup=theme_markup(),
         )
 
@@ -319,7 +317,7 @@ def build_qr_data(qtype: str, inputs: dict) -> str:
         ssid = inputs["ssid"]
         pwd = inputs["password"]
         sec = inputs["security"]
-        if sec == "NOPASS" or pwd.lower() == "none":
+        if sec == "NOPASS" or pwd.lower() in ("nenhuma", "none"):
             return f"WIFI:T:nopass;S:{ssid};;"
         return f"WIFI:T:{sec};S:{ssid};P:{pwd};;"
 
@@ -329,11 +327,11 @@ def build_qr_data(qtype: str, inputs: dict) -> str:
         email = inputs.get("email", "")
         org = inputs.get("org", "")
         lines = ["BEGIN:VCARD", "VERSION:3.0", f"FN:{name}", f"N:{name};;;;"]
-        if phone and phone.lower() != "skip":
+        if phone and phone.lower() not in ("pular", "skip"):
             lines.append(f"TEL:{phone}")
-        if email and email.lower() != "skip":
+        if email and email.lower() not in ("pular", "skip"):
             lines.append(f"EMAIL:{email}")
-        if org and org.lower() != "skip":
+        if org and org.lower() not in ("pular", "skip"):
             lines.append(f"ORG:{org}")
         lines.append("END:VCARD")
         return "\n".join(lines)
@@ -343,9 +341,9 @@ def build_qr_data(qtype: str, inputs: dict) -> str:
         subject = inputs.get("subject", "")
         body = inputs.get("body", "")
         params = []
-        if subject and subject.lower() != "skip":
+        if subject and subject.lower() not in ("pular", "skip"):
             params.append(f"subject={subject.replace(' ', '%20')}")
-        if body and body.lower() != "skip":
+        if body and body.lower() not in ("pular", "skip"):
             params.append(f"body={body.replace(' ', '%20')}")
         q = ("?" + "&".join(params)) if params else ""
         return f"mailto:{email}{q}"
@@ -356,7 +354,7 @@ def build_qr_data(qtype: str, inputs: dict) -> str:
     if qtype == "sms":
         phone = inputs["phone"]
         msg = inputs.get("message", "")
-        if msg and msg.lower() != "skip":
+        if msg and msg.lower() not in ("pular", "skip"):
             return f"SMSTO:{phone}:{msg}"
         return f"sms:{phone}"
 
@@ -390,11 +388,11 @@ async def do_generate(update: Update, context: ContextTypes.DEFAULT_TYPE, theme_
     inputs = context.user_data.get('qr_inputs')
 
     if not qtype or not inputs:
-        await query.edit_message_text("⚠️ Missing data. Start again.", reply_markup=main_menu_markup())
+        await query.edit_message_text("⚠️ Dados ausentes. Comece novamente.", reply_markup=main_menu_markup())
         return
 
     chat_id = query.message.chat_id
-    await query.edit_message_text("⏳ Generating QR code…")
+    await query.edit_message_text("⏳ Gerando seu QR code…")
 
     try:
         data = build_qr_data(qtype, inputs)
@@ -415,14 +413,14 @@ async def do_generate(update: Update, context: ContextTypes.DEFAULT_TYPE, theme_
         await context.bot.send_photo(
             chat_id=chat_id,
             photo=InputFile(io.BytesIO(out_bytes), filename=out_name),
-            caption=f"✅ *QR Code Ready!*\n\nType: {type_label}",
+            caption=f"✅ *QR Code Pronto!*\n\nTipo: {type_label}",
             parse_mode='Markdown',
         )
         # Also send as document for hi-res download
         await context.bot.send_document(
             chat_id=chat_id,
             document=InputFile(io.BytesIO(out_bytes), filename=out_name),
-            caption="📥 Hi-res PNG (1024×1024)",
+            caption="📥 PNG em alta resolução (1024×1024)",
             reply_markup=main_menu_markup(),
         )
 
@@ -430,7 +428,7 @@ async def do_generate(update: Update, context: ContextTypes.DEFAULT_TYPE, theme_
         logger.error(f"QR generation failed: {e}")
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f"❌ Failed: {e}",
+            text=f"❌ Falhou: {e}",
             reply_markup=main_menu_markup(),
         )
     finally:
